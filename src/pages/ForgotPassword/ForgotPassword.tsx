@@ -96,7 +96,7 @@ export default function ForgotPassword() {
   }
 
   return (
-    <div className='bg-orange'>
+    <div className='w-full bg-[url(https://down-vn.img.susercontent.com/file/sg-11134004-7rask-ma3xoou24b6q25)]'>
       <div className='container max-w-[100rem]'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
@@ -179,7 +179,7 @@ export default function ForgotPassword() {
                   <div className='mt-2'>
                     <button
                       onClick={onSubmit}
-                      className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
+                      className='flex w-full items-center justify-center bg-red-500 px-2 py-4 text-center text-sm uppercase text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
                       disabled={forgorPasswordMutation.isLoading}
                     >
                       {forgorPasswordMutation.isLoading && <Spin indicator={<LoadingOutlined spin />} />}

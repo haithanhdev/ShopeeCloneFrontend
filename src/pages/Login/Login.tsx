@@ -17,10 +17,10 @@ import { VerificationCode } from 'src/constants/auth.constant'
 import * as yup from 'yup'
 
 type FormData = {
-  email: string,
-  password: string,
-  totpCode?: string,
-  code?: string,
+  email: string
+  password: string
+  totpCode?: string
+  code?: string
 }
 function getCodeKey(type: string): string {
   return type === 'otp' ? 'code' : 'totpCode'
@@ -39,9 +39,11 @@ export default function Login() {
     setError,
     formState: { errors }
   } = useForm<FormData>({
-    resolver: yupResolver(schema.shape(
-      { code: yup.string().optional(), totpCode: yup.string().optional() }
-    ).pick(['email', 'password', 'code', 'totpCode']))
+    resolver: yupResolver(
+      schema
+        .shape({ code: yup.string().optional(), totpCode: yup.string().optional() })
+        .pick(['email', 'password', 'code', 'totpCode'])
+    )
   })
   const [auth, setAuth] = useState({ enable: false, type: 'otp', code: '' })
   const [email, setEmail] = useState('')
@@ -99,7 +101,7 @@ export default function Login() {
     })
   })
   return (
-    <div className='bg-orange'>
+    <div className=' w-full bg-[url(https://down-vn.img.susercontent.com/file/sg-11134004-7rask-ma3xoou24b6q25)]'>
       <div className='container'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
@@ -124,45 +126,44 @@ export default function Login() {
               />
               {auth.enable && (
                 <>
-                  <label className="block text-sm font-medium mb-1">Code Type</label>
+                  <label className='mb-1 block text-sm font-medium'>Code Type</label>
                   <select
-                    className="w-full border rounded-xl p-2"
+                    className='w-full rounded-xl border p-2'
                     value={auth.type}
                     onChange={(e) => {
-                      setAuth({ ...auth, type: e.target.value });
+                      setAuth({ ...auth, type: e.target.value })
                     }}
                   >
-                    <option value="otp">OTP</option>
-                    <option value="2fa">2FA</option>
+                    <option value='otp'>OTP</option>
+                    <option value='2fa'>2FA</option>
                   </select>
 
-                  <label className="block text-sm font-medium mb-1">
-                    {auth.type === "2fa" ? "2FA Code" : "OTP Code"}
+                  <label className='mb-1 block text-sm font-medium'>
+                    {auth.type === '2fa' ? '2FA Code' : 'OTP Code'}
                   </label>
                   <div className='flex'>
+                    <input
+                      type='text'
+                      name={auth.type === '2fa' ? 'totpCode' : 'code'}
+                      className='mr-4 w-1/2 rounded-xl border p-2'
+                      value={auth.code}
+                      onChange={(e) => setAuth({ ...auth, code: e.target.value })}
+                      required
+                    />
 
-                  <input
-                    type="text"
-                    name={auth.type === '2fa' ? 'totpCode' : 'code'}
-                    className="w-1/2 border rounded-xl p-2 mr-4"
-                    value={auth.code}
-                    onChange={(e) => setAuth({ ...auth, code: e.target.value })}
-                    required
-                  />
-
-                  {auth.type === "otp" && (
-                    <Button onClick={handleSendOtp} disabled={sendOtpMutation.isLoading}>
-                      {sendOtpMutation.isLoading && <Spin indicator={<LoadingOutlined spin />} />}
-                      <span className='ml-2'>Gửi mã OTP</span>
-                    </Button>
-                  )}
+                    {auth.type === 'otp' && (
+                      <Button onClick={handleSendOtp} disabled={sendOtpMutation.isLoading}>
+                        {sendOtpMutation.isLoading && <Spin indicator={<LoadingOutlined spin />} />}
+                        <span className='ml-2'>Gửi mã OTP</span>
+                      </Button>
+                    )}
                   </div>
                 </>
               )}
               <div className='mt-2'>
                 <button
                   type='submit'
-                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
+                  className='flex w-full items-center justify-center bg-red-500 px-2 py-4 text-center text-sm uppercase text-white hover:bg-red-600 disabled:cursor-not-allowed disabled:opacity-50'
                   disabled={loginMutation.isLoading}
                 >
                   {loginMutation.isLoading && <Spin indicator={<LoadingOutlined spin />} />}

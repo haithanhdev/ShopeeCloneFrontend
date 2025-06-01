@@ -99,9 +99,16 @@ export default function ManageLayout({ children }: ManageLayoutProps) {
           <Breadcrumb items={generateBreadcrumb()} />
 
           <div className='flex items-center'>
-            <Button type='text' icon={<QuestionCircleOutlined />} className='mr-2'>
-              Trợ giúp
-            </Button>
+            {profile?.roleId !== 1 && (
+              <Button
+                onClick={() => navigate('/chat/1')}
+                type='text'
+                icon={<QuestionCircleOutlined />}
+                className='mr-2'
+              >
+                Trợ giúp
+              </Button>
+            )}
 
             <Dropdown
               menu={{
@@ -172,8 +179,8 @@ export default function ManageLayout({ children }: ManageLayoutProps) {
               arrow
             >
               <Button type='text'>
-                <Avatar size='small' icon={<UserOutlined />} className='mr-2' />
-                <span>Admin</span>
+                <Avatar src={profile?.avatar} size='small' icon={<UserOutlined />} className='mr-2' />
+                <span>{profile?.email}</span>
               </Button>
             </Dropdown>
           </div>

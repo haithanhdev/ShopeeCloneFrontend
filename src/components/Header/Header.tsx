@@ -127,7 +127,7 @@ export default function Header() {
               />
               <button
                 // disabled={!keyword.trim()}
-                className='flex-shrink-0 rounded-sm bg-orange py-2 px-6 hover:opacity-90'
+                className='flex-shrink-0 rounded-sm bg-orange px-6 py-2 hover:opacity-90'
               >
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -152,7 +152,7 @@ export default function Header() {
                 placement='bottom'
                 content={content}
                 title='Sản phẩm mới thêm'
-                className='text-white'
+                className='text-blue-500 hover:text-white'
                 trigger='click'
                 open={open}
                 onOpenChange={handleOpenChange}

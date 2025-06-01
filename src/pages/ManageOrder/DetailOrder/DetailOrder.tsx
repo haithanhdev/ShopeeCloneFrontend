@@ -4,6 +4,7 @@ import { Descriptions, Table, Tag, Typography, Divider, Image } from 'antd'
 import { formatCurrency } from 'src/utils/utils'
 import { OrderStatus, type ListOrderItem, type Order } from 'src/types/order.type'
 import UpdateOrder from 'src/pages/ManageOrder/UpdateOrder'
+import { Link } from 'react-router-dom'
 
 const { Text } = Typography
 
@@ -120,7 +121,11 @@ export default function DetailOrder({ order }: DetailOrderProps) {
 
       <Divider orientation='left'>Thông tin người nhận</Divider>
       <Descriptions bordered column={{ xs: 1, sm: 2, md: 2 }}>
-        <Descriptions.Item label='Tên người nhận'>{order.receiver.name}</Descriptions.Item>
+        <Descriptions.Item label='Tên người nhận'>
+          <Link className='font-medium text-blue-500' to={`/chat/${order.createdById}`}>
+            {order.receiver.name}
+          </Link>
+        </Descriptions.Item>
         <Descriptions.Item label='Số điện thoại'>{order.receiver.phone}</Descriptions.Item>
         <Descriptions.Item label='Địa chỉ' span={2}>
           {order.receiver.address}

@@ -1136,7 +1136,12 @@ export default function OrderDetailWithReviews() {
 
           <Card title='Hỗ trợ' className='mb-6'>
             <p className='mb-4 text-gray-600'>Bạn cần hỗ trợ về đơn hàng này?</p>
-            <Button type='primary' block className='bg-green-500 hover:bg-green-600'>
+            <Button
+              onClick={() => navigate(`/chat/${order.shopId}`)}
+              type='primary'
+              block
+              className='bg-green-500 hover:bg-green-600'
+            >
               Liên hệ hỗ trợ
             </Button>
           </Card>
