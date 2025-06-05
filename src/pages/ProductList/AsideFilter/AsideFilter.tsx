@@ -10,7 +10,7 @@ import { Brand } from 'src/types/brand.type'
 import { omit, omitBy } from 'lodash'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
 import { useQuery } from '@tanstack/react-query'
-
+import { useTranslation } from 'react-i18next'
 interface Props {
   queryConfig: QueryConfig
   categoryData: Category[]
@@ -18,6 +18,7 @@ interface Props {
 }
 
 export default function AsideFilter({ queryConfig, categoryData, parentCategoryData }: Props) {
+  const { t } = useTranslation()
   const { categories, brandIds } = queryConfig
   const { categoryParentId } = useParams<{ categoryParentId: string }>()
   const navigate = useNavigate()
@@ -110,7 +111,7 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
           <ul>
             <Link to='/all-categories' className='flex items-center gap-3 font-bold'>
               <UnorderedListOutlined />
-              Tất Cả Danh Mục
+              {t('all categories')}
             </Link>
             <div className='my-4 h-[1px] bg-gray-300'></div>
             <li className='py-2 pl-2'>
@@ -127,7 +128,7 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
                 }`}
               >
                 {categoryParentId && categories === categoryParentId && (
-                  <div className='absolute top-0 left-[-10px]'>
+                  <div className='absolute left-[-10px] top-0'>
                     <CaretRightOutlined style={{ color: '#ee4d2d', fontSize: '12px' }} />
                   </div>
                 )}
@@ -149,7 +150,7 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
                     className={`relative px-2 ${isActive ? 'font-semibold text-orange' : ''}`}
                   >
                     {isActive && (
-                      <div className='absolute top-0 left-[-10px]'>
+                      <div className='absolute left-[-10px] top-0'>
                         <CaretRightOutlined style={{ color: '#ee4d2d', fontSize: '12px' }} />
                       </div>
                     )}
@@ -164,15 +165,15 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
       {/* Khoảng giá */}
       <Link to='/all-categories' className='mt-4 flex items-center gap-3 font-bold uppercase'>
         <FilterOutlined />
-        Bộ lọc tìm kiếm
+        {t('filter')}
       </Link>
       <div className='my-4 h-[1px] bg-gray-300'></div>
-      <div className='my-5'>Thương hiệu</div>
+      <div className='my-5'>{t('brand')}</div>
       <Select
         allowClear
         mode='multiple'
         style={{ width: '100%' }}
-        placeholder='Nhập thương hiệu để tìm kiếm'
+        placeholder={t('brandPlaceholder')}
         optionFilterProp='label'
         filterSort={(optionA, optionB) =>
           (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -186,7 +187,7 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
       />
       <div className='my-4 h-[1px] bg-gray-300'></div>
       <div className='my-5'>
-        <div>Khoảng giá</div>
+        <div>{t('priceRange')}</div>
         <form onSubmit={handleSubmit} className='mt-2'>
           <div className='my-2 flex items-center gap-3'>
             <InputNumber<number>
@@ -214,19 +215,18 @@ export default function AsideFilter({ queryConfig, categoryData, parentCategoryD
           {/* <div>
             <Slider marks={marks} range min={0} max={10000000} step={100000} defaultValue={[0, 3000000]} />
           </div> */}
-          <button className='w-full bg-orange py-2 px-2 text-sm font-medium uppercase text-white'>Áp dụng</button>
+          <button className='w-full bg-orange px-2 py-2 text-sm font-medium uppercase text-white'>{t('apply')}</button>
         </form>
       </div>
       <div className='my-4 h-[1px] bg-gray-300'></div>
       {/* Đánh giá */}
-      <div>Đánh giá</div>
+      <div>{t('rating')}</div>
       <div className='my-3 flex items-center gap-3'>
         <Rate allowHalf defaultValue={5} />
-        Trở lên
       </div>
       <div className='my-4 h-[1px] bg-gray-300'></div>
-      <button onClick={handleClearAll} className='w-full bg-orange py-2 px-2 text-sm font-medium uppercase text-white'>
-        Xoá tất cả
+      <button onClick={handleClearAll} className='w-full bg-orange px-2 py-2 text-sm font-medium uppercase text-white'>
+        {t('deleteAll')}
       </button>
     </div>
   )

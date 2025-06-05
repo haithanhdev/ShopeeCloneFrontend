@@ -8,8 +8,11 @@ import { getRefreshTokenFromLS } from 'src/utils/auth'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import authApi from 'src/apis/auth.api'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 
 export default function NavHeader() {
+  const { i18n, t } = useTranslation()
+  const currentLanguage = i18n.language
   const { setIsAuthenticated, isAuthenticated, setProfile, profile } = useContext(AppContext)
   const queryClient = useQueryClient()
   const logoutMutation = useMutation({
@@ -29,25 +32,25 @@ export default function NavHeader() {
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <Link to='/profile'>Tài khoản của tôi</Link>
+      label: <Link to='/profile'>{t('myProfile')}</Link>
     },
     {
       key: '2',
-      label: <Link to='/orders'>Đơn mua</Link>
+      label: <Link to='/orders'>{t('myOrder')}</Link>
     }
   ]
   if (profile?.roleId !== 2) {
     items.push(
       {
         key: '3',
-        label: <Link to='/manage/profile'>Quản lí</Link>
+        label: <Link to='/manage/profile'>{t('managePage')}</Link>
       },
       {
         key: '4',
         label: (
           // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
           <span onClick={handleLogout} className='block w-full cursor-pointer'>
-            Đăng xuất
+            {t('logout')}
           </span>
         )
       }
@@ -63,15 +66,19 @@ export default function NavHeader() {
       )
     })
   }
+  const changeLanguage = (lng: 'en' | 'vi') => {
+    i18n.changeLanguage(lng)
+    window.location.reload()
+  }
   return (
     <div className='flex justify-end'>
       <div className='flex cursor-pointer items-center py-1'>
-        <span className='mr-2'>Ngôn ngữ</span>
+        <span className='mr-2'>{t('language')}</span>
         <Select
-          onSelect={(value) => console.log(value)}
+          onSelect={(value) => changeLanguage(value as 'en' | 'vi')}
           placeholder='Select language'
           className='ml-2 w-[9rem]'
-          defaultValue='vi'
+          value={currentLanguage}
         >
           <Option value='vi'>
             <span className='flex items-center'>
@@ -94,7 +101,7 @@ export default function NavHeader() {
           </div>
           <Dropdown menu={{ items }}>
             <Space>
-              Hi, {profile?.email}
+              {t('hello')}, {profile?.email}
               <DownOutlined className='text-xs' />
             </Space>
           </Dropdown>
@@ -103,11 +110,11 @@ export default function NavHeader() {
       {!isAuthenticated && (
         <div className='flex items-center'>
           <Link to='/register' className='mx-3 capitalize hover:text-white/70'>
-            Đăng ký
+            {t('register')}
           </Link>
           <div className='h-4 border-r-[1px] border-r-white/40' />
           <Link to='/login' className='mx-3 capitalize hover:text-white/70'>
-            Đăng nhập
+            {t('login')}
           </Link>
         </div>
       )}

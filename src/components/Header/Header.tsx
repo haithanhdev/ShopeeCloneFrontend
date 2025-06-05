@@ -10,8 +10,9 @@ import { Empty } from 'antd'
 import { CartItemWithSKU, ShopCart } from 'src/types/purchase.type'
 import { formatCurrency } from 'src/utils/utils'
 import NavHeader from 'src/components/NavHeader'
-
+import { useTranslation } from 'react-i18next'
 export default function Header() {
+  const { t } = useTranslation()
   const { categoryParentId } = useParams<{ categoryParentId: string }>()
   const queryConfig = useQueryConfig()
   const [keyword, setKeyword] = useState<string>((queryConfig.name as string) || '')
@@ -52,7 +53,7 @@ export default function Header() {
               <div className='ml-2 flex-grow overflow-hidden'>
                 <div className='truncate'>{item.sku.product.name + ' ' + item.sku.value}</div>
                 <div>
-                  <span>Số lượng: </span>
+                  <span>{t('quantity')}: </span>
                   <span className='text-orange'>{item.quantity}</span>
                 </div>
               </div>
@@ -68,10 +69,10 @@ export default function Header() {
       {cart.length > 0 && (
         <div className='mt-6 flex min-h-fit items-center justify-between'>
           <div className='text-xs capitalize text-gray-500'>
-            Tổng số loại sản phẩm: <span className='text-lg'>{cart.length}</span>
+            {t('totalProductType')}: <span className='text-lg'>{cart.length}</span>
           </div>
           <Link to={'/cart'} className='rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'>
-            Xem giỏ hàng
+            {t('detailCart')}
           </Link>
         </div>
       )}
@@ -80,7 +81,7 @@ export default function Header() {
   const onSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!keyword.trim()) {
-      message.info('Vui lòng nhập tên sản phẩm để tìm kiếm')
+      message.info(t('searchEmptyError'))
       return
     }
     const config = queryConfig.orderBy
@@ -123,7 +124,7 @@ export default function Header() {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
-                placeholder='Free Ship Đơn Từ 0Đ'
+                placeholder={t('freeship')}
               />
               <button
                 // disabled={!keyword.trim()}
@@ -151,7 +152,7 @@ export default function Header() {
               <Popover
                 placement='bottom'
                 content={content}
-                title='Sản phẩm mới thêm'
+                title={t('newItemInCart')}
                 className='text-blue-500 hover:text-white'
                 trigger='click'
                 open={open}
@@ -174,7 +175,7 @@ export default function Header() {
                   </svg>
                 </Button>
               </Popover>
-              <div className='text-center text-sm text-white'>Giỏ hàng</div>
+              <div className='text-center text-sm text-white'>{t('cart')}</div>
             </Badge>
           </div>
         </div>

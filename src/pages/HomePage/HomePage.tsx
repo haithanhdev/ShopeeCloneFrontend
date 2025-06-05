@@ -5,10 +5,11 @@ import brandApi from 'src/apis/brand.api'
 import productApi from 'src/apis/product.api'
 import Category from 'src/pages/HomePage/Category'
 import Product from 'src/pages/ProductList/Product'
-
+import { useTranslation } from 'react-i18next'
 const LIMIT = 10
 
 export default function HomePage() {
+  const { t } = useTranslation()
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['products'],
     queryFn: ({ pageParam = 1 }) => productApi.getProducts({ page: pageParam, limit: LIMIT }),
@@ -85,7 +86,7 @@ export default function HomePage() {
       {brandsData && !isError && (
         <div className='container my-5 px-8'>
           <Divider />
-          <div className='my-6 text-lg font-semibold uppercase text-gray-700'>Thương hiệu</div>
+          <div className='my-6 text-lg font-semibold uppercase text-gray-700'>{t('brand')}</div>
           <div className='grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6'>
             {brandsData.data.data.map((brand) => (
               <div key={brand.id} className='col-span-1'>
@@ -104,7 +105,7 @@ export default function HomePage() {
       {/* Sản phẩm */}
       <div className='container my-5 px-8'>
         <Divider />
-        <div className='my-6 text-lg font-semibold uppercase text-gray-700'>Sản phẩm mới</div>
+        <div className='my-6 text-lg font-semibold uppercase text-gray-700'>{t('newProducts')}</div>
 
         {isLoading && (
           <div className='flex items-center justify-center'>

@@ -28,10 +28,12 @@ import {
   CalendarOutlined
 } from '@ant-design/icons'
 import ProductReviewList from 'src/pages/ProductDetail/ProductReviewList'
+import { useTranslation } from 'react-i18next'
 
 const { Timer } = Statistic
 
 export default function ProductDetail() {
+  const { t } = useTranslation()
   const navigate = useNavigate()
 
   const queryClient = useQueryClient()
@@ -188,7 +190,7 @@ export default function ProductDetail() {
                 <img
                   src={activeImage || '/placeholder.svg'}
                   alt={product.data.name}
-                  className='absolute top-0 left-0 h-full w-full bg-white object-cover'
+                  className='absolute left-0 top-0 h-full w-full bg-white object-cover'
                   ref={imageRef}
                 />
               </div>
@@ -215,7 +217,7 @@ export default function ProductDetail() {
                       <img
                         src={img || '/placeholder.svg'}
                         alt={product.data.name}
-                        className='absolute top-0 left-0 h-full w-full cursor-pointer bg-white object-cover'
+                        className='absolute left-0 top-0 h-full w-full cursor-pointer bg-white object-cover'
                       />
                       {isActive && <div className='absolute inset-0 border-2 border-orange' />}
                     </div>
@@ -254,12 +256,12 @@ export default function ProductDetail() {
                       product.data.productSKUSnapshots?.reduce((prev, next) => prev + next.quantity, 0) || 0
                     )}
                   </span>
-                  <span className='ml-1 text-gray-500'>Đã bán</span>
+                  <span className='ml-1 text-gray-500'>{t('sold')}</span>
                 </div>
                 <div className='mx-4 h-4 w-[1px] bg-gray-300'></div>
                 <div>
                   <span>{product.data.skus.reduce((prev, next) => prev + next.stock, 0)}</span>
-                  <span className='ml-1 text-gray-500'>Sản phẩm</span>
+                  <span className='ml-1 text-gray-500'>{t('products')}</span>
                 </div>
               </div>
 
@@ -270,7 +272,7 @@ export default function ProductDetail() {
                 />
                 <div className='flex items-center gap-3'>
                   <ClockCircleOutlined style={{ color: 'white' }} />
-                  <span className='uppercase text-white'>Kết thúc trong: </span>
+                  <span className='uppercase text-white'>{t('endAt')}: </span>
                   <Timer type='countdown' value={deadline} onFinish={onFinish} valueStyle={{ color: 'white' }} />
                 </div>
               </div>
@@ -279,12 +281,12 @@ export default function ProductDetail() {
                 <div className='text-gray-500 line-through'>₫{formatCurrency(product.data.virtualPrice)}</div>
                 <div className='ml-3 text-3xl font-medium text-orange'>₫{formatCurrency(selectedSKU.price)}</div>
                 <div className='ml-4 rounded-sm bg-orange px-1 py-[2px] text-xs font-semibold uppercase text-white'>
-                  {rateSale(product.data.virtualPrice, selectedSKU.price)} giảm
+                  {rateSale(product.data.virtualPrice, selectedSKU.price)} {t('discount')}
                 </div>
               </div>
 
               <div className='mt-8'>
-                <div className='mb-3 font-medium capitalize text-gray-500'>Phân loại:</div>
+                <div className='mb-3 font-medium capitalize text-gray-500'>{t('SKU')}:</div>
                 <div className='flex flex-wrap gap-3'>
                   {product.data.skus.map((sku) => (
                     <button
@@ -298,9 +300,9 @@ export default function ProductDetail() {
                       disabled={sku.stock === 0}
                     >
                       {sku.value}
-                      {sku.stock === 0 && <span className='ml-1 text-xs text-gray-500'>(Hết hàng)</span>}
+                      {sku.stock === 0 && <span className='ml-1 text-xs text-gray-500'>({t('soldOut')})</span>}
                       {selectedSKU?.id === sku.id && (
-                        <span className='absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange text-[10px] text-white'>
+                        <span className='absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-orange text-[10px] text-white'>
                           ✓
                         </span>
                       )}
@@ -310,11 +312,13 @@ export default function ProductDetail() {
               </div>
 
               <div className='mt-8 flex items-center'>
-                <div className='capitalize text-gray-500'>Số lượng</div>
+                <div className='capitalize text-gray-500'>{t('quantity')}:</div>
                 <div className='ml-10 flex items-center'>
                   <QuantityController max={selectedSKU?.stock || 0} setBuyCount={setBuyCount} value={buyCount} />
                 </div>
-                <div className='ml-6 text-sm text-gray-500'>{selectedSKU?.stock || 0} sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {selectedSKU?.stock || 0} {t('productAvailable')}
+                </div>
               </div>
 
               <div className='mt-8 flex items-center'>
@@ -345,10 +349,10 @@ export default function ProductDetail() {
                       <line fill='none' strokeLinecap='round' strokeMiterlimit={10} x1={9} x2={9} y1='8.5' y2='5.5' />
                     </g>
                   </svg>
-                  Thêm vào giỏ hàng
+                  {t('addToCart')}
                 </button>
                 <button className='fkex ml-4 h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
-                  Mua ngay
+                  {t('buyNow')}
                 </button>
               </div>
             </div>
@@ -420,7 +424,7 @@ export default function ProductDetail() {
                     className='border-orange-500 text-orange-500 hover:border-orange-600 hover:text-orange-600'
                     onClick={() => navigate(`/chat/${shopData.data.id}`)}
                   >
-                    Chat ngay
+                    {t('message')}
                   </Button>
                 </div>
               </div>
@@ -461,9 +465,9 @@ export default function ProductDetail() {
       <div className='mt-8'>
         <div className='container'>
           <div className='mt-8 bg-white p-4 shadow'>
-            <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+            <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>{t('description')}</div>
 
-            <div className='mx-4 mt-6 mb-4 text-sm leading-loose'>
+            <div className='mx-4 mb-4 mt-6 text-sm leading-loose'>
               {product.data.productTranslations[0]?.description || 'Description'}
             </div>
           </div>

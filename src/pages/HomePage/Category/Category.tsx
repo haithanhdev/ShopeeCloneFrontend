@@ -3,8 +3,9 @@ import categoryApi from 'src/apis/category.api' // bạn cần tự định ngh�
 import { Spin } from 'antd'
 import { Link } from 'react-router-dom'
 import { Category as CategoryType } from 'src/types/category.type'
-
+import { useTranslation } from 'react-i18next'
 export default function Category() {
+  const { t } = useTranslation()
   const { data, isLoading } = useQuery({
     queryKey: ['categories'],
     queryFn: categoryApi.getCategories,
@@ -15,7 +16,7 @@ export default function Category() {
 
   return (
     <div className='container'>
-      <div className='my-6 text-lg font-semibold uppercase text-gray-700'>Danh mục</div>
+      <div className='my-6 text-lg font-semibold uppercase text-gray-700'>{t('category')}</div>
 
       {isLoading ? (
         <div className='flex h-32 items-center justify-center'>

@@ -5,7 +5,7 @@ import { ProductListConfig } from 'src/types/product.type'
 import { omit } from 'lodash'
 import { OrderBy } from 'src/constants/product'
 import { QueryConfig } from 'src/hooks/useQueryConfig'
-
+import { useTranslation } from 'react-i18next'
 interface Props {
   queryConfig: QueryConfig
   totalPages: number
@@ -13,6 +13,7 @@ interface Props {
   categoryParentId: string | undefined
 }
 export default function SortProductList({ queryConfig, totalPages, totalItems, categoryParentId }: Props) {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { sortBy, orderBy } = queryConfig
 
@@ -49,17 +50,17 @@ export default function SortProductList({ queryConfig, totalPages, totalItems, c
     })
   }
   return (
-    <div className='bg-gray-300/40 py-4 px-3'>
+    <div className='bg-gray-300/40 px-3 py-4'>
       <div className='flex flex-wrap items-center justify-between gap-2'>
         <div className='flex flex-wrap items-center gap-2'>
-          <div>Sắp xếp theo</div>
+          <div>{t('sortBy')}</div>
           <button
             className={`h-8 px-4 text-sm capitalize hover:bg-orange/80 ${
               sortBy === 'createdAt' ? 'bg-orange text-white' : 'bg-white text-black'
             }`}
             onClick={() => handleSort('createdAt')}
           >
-            Mới nhất
+            {t('newest')}
           </button>
           <button
             className={`h-8 px-4 text-sm capitalize hover:bg-orange/80 ${
@@ -67,10 +68,10 @@ export default function SortProductList({ queryConfig, totalPages, totalItems, c
             }`}
             onClick={() => handleSort('sale')}
           >
-            Bán chạy
+            {t('sell')}
           </button>
           <Select
-            placeholder='Giá'
+            placeholder={t('price')}
             value={sortBy === 'price' ? (orderBy as OrderBy | undefined) : undefined}
             className='custom-select'
             onChange={handlePriceOrder}
@@ -79,11 +80,11 @@ export default function SortProductList({ queryConfig, totalPages, totalItems, c
             options={[
               {
                 value: 'asc',
-                label: 'Giá: Thấp đến Cao'
+                label: t('priceLowToHigh')
               },
               {
                 value: 'desc',
-                label: 'Giá: Cao đến Thấp'
+                label: t('priceHighToLow')
               }
             ]}
           />

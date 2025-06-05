@@ -116,11 +116,11 @@ export default function ManageSidebar({ collapsed, onCollapse }: ManageSidebarPr
         // defaultOpenKeys={['products', 'settings']}
         className='border-r-0'
         items={[
-          {
-            key: 'dashboard',
-            icon: <DashboardOutlined />,
-            label: <Link to='/manage/dashboard'>Tổng quan</Link>
-          },
+          // {
+          //   key: 'dashboard',
+          //   icon: <DashboardOutlined />,
+          //   label: <Link to='/manage/dashboard'>Tổng quan</Link>
+          // },
           {
             key: 'products',
             icon: <ShoppingOutlined />,
