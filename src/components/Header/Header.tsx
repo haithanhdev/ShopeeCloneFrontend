@@ -124,7 +124,7 @@ export default function Header() {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
                 className='flex-grow border-none bg-transparent px-3 py-2 text-black outline-none'
-                placeholder={t('freeship')}
+                placeholder={t('freeship') as string}
               />
               <button
                 // disabled={!keyword.trim()}
